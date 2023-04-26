@@ -31,16 +31,16 @@ unique_ptr<No> inserirNo(unique_ptr<No> raiz, int valor) {
     return raiz;
 }
 
-unique_ptr<No> busca(int chave, unique_ptr<No> raiz) {
-    No* current = raiz.get();
-    while (current != nullptr && current->valor != chave) {
-        if (chave < current->valor) {
-            current = current->esquerda.get();
-        } else {
-            current = current->direita.get();
-        }
+unique_ptr<No> busca(unique_ptr<No> raiz, int chave) {
+    if (raiz == nullptr || raiz->valor == chave) {
+        return move(raiz);
     }
-    return unique_ptr<No>(current);
+    else if (raiz->valor < chave) {
+        return busca(raiz->direita, chave);
+    }
+    else {
+        return busca(raiz->esquerda, chave);
+    }
 }
 
 int main() {
